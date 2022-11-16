@@ -1,0 +1,30 @@
+.checkbox {
+  display: block;
+}
+
+.checkbox .check {
+  stroke: #cc181e; /*red*/
+  fill: none;
+  stroke-width: 20;
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: check 0.5s linear forwards;
+}
+
+.checkbox .box {
+  stroke: #cc181e; /*red*/
+  stroke: #387ea9; /*blue*/
+  stroke-width: 12;
+  fill: none;
+  stroke-dasharray: 0;
+  stroke-dashoffset: 0;
+}
+
+@keyframes check {
+  0% {
+    stroke-dashoffset: -400;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}

@@ -1,0 +1,51 @@
+[
+  {
+    "prompt": "Would you rather have telekinesis (the ability to move things with your mind) or telepathy (the ability to read minds)?",
+    "options": [
+      "Telekinesis",
+      "Telepathy"
+    ]
+  },
+  {
+    "prompt": "Would you rather find true love today or win the lottery next year?",
+    "options": [
+      "True love",
+      "Win the lottery"
+    ]
+  },
+  {
+    "prompt": "Would you rather cuddle a koala or pal around with a panda?",
+    "options": [
+      "Cuddle a koala",
+      "Pal around with a panda"
+    ]
+  },
+  {
+    "prompt": "Would you rather Danny DeVito or Danny Trejo play you in a movie?",
+    "options": [
+      "Played by Danny DeVito",
+      "Played by Danny Trejo"
+    ]
+  },
+  {
+    "prompt": "Would you rather that you win $25,000 or your best friend win $100,000?",
+    "options": [
+      "Win $25,000",
+      "Best friend win $100,000"
+    ]
+  },
+  {
+    "prompt": "Would you rather your to only be able to talk to your dog or for your dog to be able to talk to only you—and everyone thinks you're nuts?",
+    "options": [
+      "Talk to your dog",
+      "My dog talk to me"
+    ]
+  },
+  {
+    "prompt": "Would you rather eat only pizza for a year or not eat any pizza for five years?",
+    "options": [
+      "Only pizza",
+      "No pizza"
+    ]
+  }
+]
