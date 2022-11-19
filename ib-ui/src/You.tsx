@@ -1,13 +1,13 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import { useLogOutUser } from "./LoggedInUser";
+import { useLogOutUser } from "./loggedInUser";
 import PageFrame from "./PageFrame";
 import { urlOfQuiz } from "./urlOf";
 import { SelfUser } from "./User";
 
 const You: FC<{ loggedInUser: SelfUser }> = ({ loggedInUser }) => {
   const logOut = useLogOutUser(loggedInUser);
-  const quizUrl = urlOfQuiz();
+  const quizUrl = urlOfQuiz(loggedInUser.network);
 
   return (
     <PageFrame headline={`Hi, ${loggedInUser.firstName}`}>

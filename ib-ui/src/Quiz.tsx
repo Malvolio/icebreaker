@@ -7,7 +7,7 @@ import Checkbox from "./Checkbox";
 import useQuizStore from "./useQuizStore";
 import PageFrame from "./PageFrame";
 import { urlOfBadge, urlOfQuiz } from "./urlOf";
-import { useGetLoggedInUser } from "./LoggedInUser";
+import { useGetLoggedInUser } from "./loggedInUser";
 
 const QuizButton: FC<
   PropsWithChildren<{ checked: boolean; onCheck: () => void }>
@@ -27,16 +27,17 @@ const QuizButton: FC<
   </div>
 );
 
-const QuizLink: FC<PropsWithChildren<{ goTo: number }>> = ({
+const QuizLink: FC<PropsWithChildren<{ network: string; goTo: number }>> = ({
   goTo,
   children,
+  network,
 }) => {
   const { questions } = useQuizStore();
   const navigate = useNavigate();
   const valid = goTo >= 0 && goTo < questions.length;
   const onClick = () => {
     if (valid) {
-      navigate(urlOfQuiz(goTo));
+      navigate(urlOfQuiz(network, goTo));
     }
   };
   return (
@@ -62,11 +63,11 @@ const Quiz = () => {
     const next = questionIndex + 1;
     if (next < questions.length && O.isNone(answers[next])) {
       setTimeout(() => {
-        navigate(urlOfQuiz(next));
+        navigate(urlOfQuiz(network!, next));
       }, 1000);
     }
   };
-  return (
+  return network ? (
     <PageFrame
       headline={`Answer these ${questions.length} quick poll questions.`}
     >
@@ -87,17 +88,21 @@ const Quiz = () => {
       </div>
       <div className="flex flex-row justify-around w-full">
         {questionIndex > 0 && (
-          <QuizLink goTo={questionIndex - 1}>back</QuizLink>
+          <QuizLink network={network} goTo={questionIndex - 1}>
+            back
+          </QuizLink>
         )}
         {O.isSome(currentAnswer) && questionIndex < questions.length - 1 && (
-          <QuizLink goTo={questionIndex + 1}>next</QuizLink>
+          <QuizLink network={network} goTo={questionIndex + 1}>
+            next
+          </QuizLink>
         )}
         {loggedInUser && questionIndex === questions.length - 1 && (
           <Link to={urlOfBadge(loggedInUser)}>home</Link>
         )}
       </div>
     </PageFrame>
-  );
+  ) : null;
 };
 
 export default Quiz;

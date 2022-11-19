@@ -2,7 +2,7 @@ import { string } from "fp-ts";
 import { FC, useState } from "react";
 import { useParams } from "react-router";
 import BreakTheIce from "./BreakTheIce";
-import { useGetLoggedInUser, useLogInUser } from "./LoggedInUser";
+import { useGetLoggedInUser, useLogInUser } from "./loggedInUser";
 import PageFrame from "./PageFrame";
 import { useSubmitPin } from "./useSubmitPin";
 import You from "./You";
