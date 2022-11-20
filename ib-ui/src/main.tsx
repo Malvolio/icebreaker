@@ -5,6 +5,8 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
 import Quiz from "./Quiz";
 import Badge from "./Badge";
+import Users from "./Users";
+
 import "./index.css";
 
 const router = createBrowserRouter([
@@ -19,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: "badge/:network/:badgeId",
     element: <Badge />,
+  },
+  {
+    path: "users",
+    element: <Users />,
   },
 ]);
 

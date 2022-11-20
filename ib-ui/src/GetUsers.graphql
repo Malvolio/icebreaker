@@ -1,0 +1,8 @@
+query GetUsers($network: String!) {
+  getUsers(network: $network) {
+    network
+    badgeId
+    firstName
+    profile
+  }
+}
