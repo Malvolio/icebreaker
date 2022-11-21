@@ -1,0 +1,38 @@
+{
+  "name": "serverless-icebreaker-trial",
+  "description": "This template demonstrates how to make a simple HTTP API with Node.js and Typescript running on AWS Lambda and API Gateway using the Serverless Framework v3",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "dotenv -e dev.env nodemon  --exec \"ts-node\" src/start.ts",
+    "codegen": "graphql-codegen --config codegen.yml",
+    "deploy": "serverless deploy"
+  },
+  "dependencies": {
+    "apollo-server-core": "^3.11.1",
+    "apollo-server-express": "^3.11.1",
+    "apollo-server-lambda": "^3.11.1",
+    "codegen": "^0.1.0",
+    "dotenv-cli": "^6.0.0",
+    "express": "^4.18.2",
+    "fp-ts": "^2.13.1",
+    "graphql": "^16.6.0",
+    "kysely": "^0.22.0",
+    "nodemon": "^2.0.20",
+    "pg": "^8.8.0"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "2.13.12",
+    "@graphql-codegen/typescript": "^2.8.2",
+    "@graphql-codegen/typescript-document-nodes": "2.3.7",
+    "@graphql-codegen/typescript-resolvers": "2.7.7",
+    "@graphql-tools/schema": "^9.0.10",
+    "@types/aws-lambda": "^8.10.101",
+    "@types/node": "^18.11.9",
+    "@types/pg": "^8.6.5",
+    "serverless": "^3.21.0",
+    "serverless-offline": "^9.1.6",
+    "serverless-plugin-typescript": "^2.1.2",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.3"
+  }
+}

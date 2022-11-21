@@ -1,0 +1,35 @@
+org: vaxassure
+app: serverless-icebreaker-trial
+service: serverless-icebreaker-trial
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  environment:
+    DATABASE: ${param:DATABASE}
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - httpApi:
+          path: /
+          method: get
+  studio:
+    handler: handler.studio
+    events:
+      - httpApi:
+          path: /studio
+          method: get
+  graphql:
+    handler: handler.graphql
+    events:
+      - httpApi:
+          path: /graphql
+          method: get
+      - httpApi:
+          path: /graphql
+          method: post          
+plugins:
+  - serverless-plugin-typescript
