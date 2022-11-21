@@ -1,0 +1,9 @@
+query GetAnswers($network: String!, $badgeId: Int!) {
+  getAnswers(network: $network, badgeId: $badgeId) {
+    id
+    network
+    badgeId
+    questionId
+    optionIndex
+  }
+}

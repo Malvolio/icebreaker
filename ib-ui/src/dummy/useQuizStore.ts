@@ -4,9 +4,10 @@ import { combine } from "zustand/middleware";
 import * as O from "fp-ts/Option";
 import * as A from "fp-ts/Array";
 import { pipe } from "fp-ts/lib/function";
-import QuizData from "./quiz.json";
+import QuizData from "../quiz.json";
 
 type Question = {
+  id: string;
   prompt: string;
   options: string[];
 };

@@ -1,0 +1,21 @@
+mutation Match($network: String!, $me: Int!, $badgeId: Int!) {
+  match(network: $network, me: $me, badgeId: $badgeId) {
+    user {
+      id
+      network
+      badgeId
+      firstName
+      profile
+      linkedIn
+      phone
+      email
+    }
+    answers {
+      id
+      network
+      badgeId
+      questionId
+      optionIndex
+    }
+  }
+}

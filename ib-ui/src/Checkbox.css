@@ -6,9 +6,9 @@
   stroke: #cc181e; /*red*/
   fill: none;
   stroke-width: 20;
-  stroke-dasharray: 400;
-  stroke-dashoffset: 400;
-  animation: check 0.5s linear forwards;
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  animation: check 100ms linear forwards;
 }
 
 .checkbox .box {
@@ -22,7 +22,7 @@
 
 @keyframes check {
   0% {
-    stroke-dashoffset: -400;
+    stroke-dashoffset: -100;
   }
   100% {
     stroke-dashoffset: 0;

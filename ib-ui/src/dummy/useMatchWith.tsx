@@ -1,4 +1,4 @@
-import { User, SelfUser } from "./User";
+import { User, SelfUser } from "../User";
 
 type Match = {
   user: User;
@@ -6,7 +6,7 @@ type Match = {
 };
 export const useMatchWith = (
   loggedInUser: SelfUser,
-  badgeId: string
+  badgeId: number
 ):
   | { loading: true; match: null; error: "" }
   | { loading: false; match: null; error: string }
@@ -16,7 +16,7 @@ export const useMatchWith = (
   match: {
     user: {
       network: "meet",
-      badgeId: "133",
+      badgeId: 133,
       firstName: "John",
       linkedIn: "https://www.linkedin.com/in/john-gefroh-a84455b6/",
       profile:

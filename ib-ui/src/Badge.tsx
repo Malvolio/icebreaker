@@ -1,24 +1,25 @@
 import { string } from "fp-ts";
 import { FC, useState } from "react";
-import { useParams } from "react-router";
 import BreakTheIce from "./BreakTheIce";
 import { useGetLoggedInUser, useLogInUser } from "./loggedInUser";
 import PageFrame from "./PageFrame";
-import { useSubmitPin } from "./useSubmitPin";
+import { useSubmitPin } from "./backend/useSubmitPin";
 import You from "./You";
+import { useStandardParams } from "./useStandardParams";
 
-const IsYou: FC<{ badgeId: string; network: string }> = ({
+const IsYou: FC<{ badgeId: number; network: string }> = ({
   badgeId,
   network,
 }) => {
   const [loginError, setLoginError] = useState("");
   const [pin, setPin] = useState("");
-  const submitPin = useSubmitPin();
+  const submitPin = useSubmitPin(network, badgeId);
   const logIn = useLogInUser(network);
   const tryLogIn = async () => {
     setLoginError("");
 
-    const user = await submitPin(badgeId, network, pin);
+    const user = await submitPin(pin);
+
     if (user) {
       logIn(user);
     } else {
@@ -62,7 +63,7 @@ const ScanError: FC<{}> = () => (
 );
 
 const Badge = () => {
-  const { network, badgeId } = useParams();
+  const { network, badgeId } = useStandardParams();
   const loggedInUser = useGetLoggedInUser(network);
   if (!badgeId || !network) {
     return <ScanError />;

@@ -1,0 +1,12 @@
+mutation SubmitPin($network: String!, $badgeId: Int!, $pin: String!) {
+  login(network: $network, badgeId: $badgeId, pin: $pin) {
+    id
+    network
+    badgeId
+    firstName
+    profile
+    linkedIn
+    phone
+    email
+  }
+}

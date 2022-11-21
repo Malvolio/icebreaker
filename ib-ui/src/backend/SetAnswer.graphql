@@ -1,0 +1,9 @@
+mutation SetAnswer($network: String!, $badgeId: Int!, $answer: AnswerInput!) {
+  setAnswer(network: $network, badgeId: $badgeId, answer: $answer) {
+    id
+    network
+    badgeId
+    questionId
+    optionIndex
+  }
+}

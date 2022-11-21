@@ -4,10 +4,11 @@ import * as O from "fp-ts/Option";
 import classnames from "classnames";
 import Checkbox from "./Checkbox";
 
-import useQuizStore from "./useQuizStore";
+import useQuizStore from "./backend/useQuizStore";
 import PageFrame from "./PageFrame";
 import { urlOfBadge, urlOfQuiz } from "./urlOf";
 import { useGetLoggedInUser } from "./loggedInUser";
+import { useStandardParams } from "./useStandardParams";
 
 const QuizButton: FC<
   PropsWithChildren<{ checked: boolean; onCheck: () => void }>
@@ -32,7 +33,7 @@ const QuizLink: FC<PropsWithChildren<{ network: string; goTo: number }>> = ({
   children,
   network,
 }) => {
-  const { questions } = useQuizStore();
+  const { questions } = useQuizStore(network);
   const navigate = useNavigate();
   const valid = goTo >= 0 && goTo < questions.length;
   const onClick = () => {
@@ -48,16 +49,16 @@ const QuizLink: FC<PropsWithChildren<{ network: string; goTo: number }>> = ({
 };
 
 const Quiz = () => {
-  const { network } = useParams();
+  const { network, badgeId } = useStandardParams();
   const loggedInUser = useGetLoggedInUser(network);
 
-  const { answers, questions, answer } = useQuizStore();
+  const { answers, questions, answer } = useQuizStore(network);
   const navigate = useNavigate();
   const { pageNo } = useParams();
   const questionIndex = pageNo ? Number(pageNo) - 1 : 0;
   const { prompt, options } = questions[questionIndex];
   const currentAnswer = answers[questionIndex];
-  const answerIndex = O.getOrElse(() => -1)(currentAnswer);
+  const currentOptionIndex = O.getOrElse(() => -1)(currentAnswer);
   const onCheck = (optionIndex: number) => () => {
     answer(questionIndex, optionIndex);
     const next = questionIndex + 1;
@@ -78,7 +79,8 @@ const Quiz = () => {
         <div className="flex flex-col gap-5">
           {options.map((option, optionIndex) => (
             <QuizButton
-              checked={optionIndex === answerIndex}
+              key={optionIndex}
+              checked={optionIndex === currentOptionIndex}
               onCheck={onCheck(optionIndex)}
             >
               {option}

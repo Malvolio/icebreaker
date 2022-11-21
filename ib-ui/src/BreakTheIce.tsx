@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 import { SelfUser } from "./User";
 import PageFrame from "./PageFrame";
 import { urlOfBadge } from "./urlOf";
-import { useMatchWith } from "./useMatchWith";
-import useQuizStore from "./useQuizStore";
+import { useMatchWith } from "./backend/useMatchWith";
+import useQuizStore from "./backend/useQuizStore";
+import { fakeImage } from "./fakeImage";
 
 const pluralizedWord = (word: string) => {
   const lastChar = word.substring(word.length - 1);
@@ -26,8 +27,11 @@ const pluralize = (n: number, word: string) =>
   n === 1 ? word : pluralizedWord(word);
 const countOf = (n: number, item: string) => `${n} ${pluralize(n, item)}`;
 
-const DisplayMatch: FC<{ questionIndex: number }> = ({ questionIndex }) => {
-  const { answers, questions } = useQuizStore();
+const DisplayMatch: FC<{ network: string; questionIndex: number }> = ({
+  questionIndex,
+  network,
+}) => {
+  const { answers, questions } = useQuizStore(network);
   const { prompt, options } = questions[questionIndex];
   const answer = answers[questionIndex];
   const chosenOption = O.isSome(answer) ? options[answer.value] : "";
@@ -40,7 +44,7 @@ const DisplayMatch: FC<{ questionIndex: number }> = ({ questionIndex }) => {
 
 const BreakTheIce: FC<{
   loggedInUser: SelfUser;
-  badgeId: string;
+  badgeId: number;
 }> = ({ loggedInUser, badgeId }) => {
   const { match } = useMatchWith(loggedInUser, badgeId);
 
@@ -50,7 +54,7 @@ const BreakTheIce: FC<{
         {match.user.profile && (
           <div
             className="h-24 w-24 round-20 bg-cover rounded-full"
-            style={{ backgroundImage: `url(${match.user.profile})` }}
+            style={{ backgroundImage: fakeImage(match.user.badgeId) }}
           />
         )}
         <h2 className="text-lg mt-10">
@@ -58,7 +62,11 @@ const BreakTheIce: FC<{
         </h2>
         <div>
           {match.matchingAnswers.map((questionIndex, key) => (
-            <DisplayMatch key={key} questionIndex={questionIndex} />
+            <DisplayMatch
+              key={key}
+              network={loggedInUser.network}
+              questionIndex={questionIndex}
+            />
           ))}
         </div>
       </div>

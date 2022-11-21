@@ -2,15 +2,13 @@ import * as O from "fp-ts/Option";
 
 export type UserId = {
   network: string;
-  badgeId: string;
+  badgeId: number;
 };
 export type User = UserId & {
   firstName: string;
-  profile?: string;
-  linkedIn?: string;
-  phone?: string;
+  profile?: string | null;
+  linkedIn?: string | null;
+  phone?: string | null;
+  email?: string | null;
 };
-export type SelfUser = User & {
-  takenQuiz: boolean;
-  answers?: O.Option<number>[];
-};
+export type SelfUser = User;
