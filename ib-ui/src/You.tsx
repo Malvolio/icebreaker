@@ -15,7 +15,7 @@ const You: FC<{ loggedInUser: SelfUser }> = ({ loggedInUser }) => {
     <PageFrame headline={`Hi, ${loggedInUser.firstName}`}>
       {takenQuiz ? (
         <div>
-          You have already taken the quiz.
+          You have already taken the quiz.{" "}
           <Link to={quizUrl}>Change your answers?</Link>
         </div>
       ) : (
