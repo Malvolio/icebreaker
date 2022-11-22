@@ -25,11 +25,13 @@ functions:
   graphql:
     handler: handler.graphql
     events:
-      - httpApi:
+      - http:
           path: /graphql
           method: get
-      - httpApi:
+          cors: true
+      - http:
           path: /graphql
           method: post          
+          cors: true
 plugins:
   - serverless-plugin-typescript
