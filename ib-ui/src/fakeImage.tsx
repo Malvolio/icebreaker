@@ -1,2 +1,2 @@
 export const fakeImage = (badgeId: number) =>
-  `url(http://icebreaker-staging.s3-website-us-east-1.amazonaws.com/profiles/profile${badgeId}.jpg)`;
+  `url(https://d1xtb3hq0n0m0c.cloudfront.net/profile${badgeId}.jpg)`;
