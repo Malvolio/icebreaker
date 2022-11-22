@@ -7,6 +7,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
+    "deploy": "yarn build; aws s3 cp dist s3://icebreaker-staging/dist/ --recursive; yarn invalidate",
+    "invalidate": "aws cloudfront create-invalidation --path /index.html --distribution-id E1JCQCO841KQPN",
     "codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
