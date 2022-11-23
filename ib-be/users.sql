@@ -20,3 +20,5 @@ insert into users (id, network, "badgeId", pin, "firstName", email, profile, "li
 insert into users (id, network, "badgeId", pin, "firstName", email, profile, "linkedIn", phone) values ('12f5ad15-988f-4559-ad7d-545829ec5dbd', 'tday', 218, 6005, 'Christoper', 'cbricklebanki@surveymonkey.com', 218, 'cderrelli', '(263) 2345435');
 insert into users (id, network, "badgeId", pin, "firstName", email, profile, "linkedIn", phone) values ('da67ac14-ec8b-4d0c-aec2-ea250f4e54da', 'tday', 219, 8252, 'Tyler', 'tandriesj@tinyurl.com', 219, 'tcluleej', '(676) 8007455');
 insert into users (id, network, "badgeId", pin, "firstName", email, profile, "linkedIn", phone) values ('348402ff-ca1c-4ff2-8564-88b7dec0342b', 'tday', 220, 5706, 'Ralph', 'rpassiek@ox.ac.uk', 220, 'rvicentk', '(879) 6371100');
+
+UPDATE users SET pin = (("badgeId" * 1549) % 8929) + 1000;
