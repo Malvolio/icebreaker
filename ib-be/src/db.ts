@@ -2,8 +2,10 @@ import { AnswerInput } from "./generated/graphql";
 import { pipe } from "fp-ts/function";
 import * as A from "fp-ts/lib/Array";
 import * as R from "fp-ts/lib/Record";
+import * as TE from "fp-ts/lib/TaskEither";
+import * as T from "fp-ts/lib/Task";
 import { Pool } from "pg";
-import { Generated, Kysely, PostgresDialect } from "kysely";
+import { Generated, Kysely, Selectable, PostgresDialect } from "kysely";
 import upsert from "./upsert";
 
 interface AnswerTable {
@@ -171,4 +173,64 @@ export const makeMatch = async (
       answers,
     }
   );
+};
+
+export const summarizeMatches = (network: string, badgeId: number) => {
+  const { count, sum } = db.fn;
+  return db
+    .selectFrom("matches")
+    .select([
+      count<number>("score").as("matches"),
+      sum<number>("score").as("score"),
+    ])
+    .where("network", "=", network)
+    .where("badgeId", "=", badgeId)
+    .executeTakeFirstOrThrow();
+};
+
+type UserModel = Selectable<UserTable>;
+type Besty = { score: number; user: UserModel };
+
+export const getBesties = async (
+  network: string,
+  badgeId: number
+): Promise<Besty[]> => {
+  const { max } = db.fn;
+  return pipe(
+    TE.tryCatch(
+      () =>
+        db
+          .selectFrom([
+            "users",
+            "matches",
+            (eb) =>
+              eb
+                .selectFrom("matches")
+                .select([max("score").as("score")])
+                .where("network", "=", network)
+                .where("badgeId", "=", badgeId)
+                .where("otherBadgeId", "!=", badgeId)
+                .as("hiscore"),
+          ])
+          .selectAll("users")
+          .select("matches.score as score")
+          .where("users.network", "=", network)
+          .where("matches.badgeId", "=", badgeId)
+          .where("matches.otherBadgeId", "!=", badgeId)
+          .whereRef("users.badgeId", "=", "matches.otherBadgeId")
+          .whereRef("users.network", "=", "matches.network")
+          .whereRef("hiscore.score", "=", "matches.score")
+          .execute(),
+      (e) => {
+        console.error(e);
+      }
+    ),
+    TE.map(
+      A.map(({ score, ...user }: { score: number } & UserModel) => ({
+        score,
+        user,
+      }))
+    ),
+    TE.getOrElse(() => T.of([] as Besty[]))
+  )();
 };

@@ -29,10 +29,22 @@ export type AnswerInput = {
   questionId: Scalars['String'];
 };
 
+export type Besty = {
+  __typename?: 'Besty';
+  score: Scalars['Int'];
+  user: User;
+};
+
 export type Match = {
   __typename?: 'Match';
   answers: Array<Answer>;
   user: User;
+};
+
+export type MatchSummary = {
+  __typename?: 'MatchSummary';
+  matches: Scalars['Int'];
+  score: Scalars['Int'];
 };
 
 export type Mutation = {
@@ -66,7 +78,9 @@ export type MutationSetAnswerArgs = {
 export type Query = {
   __typename?: 'Query';
   getAnswers: Array<Answer>;
+  getBesties: Array<Besty>;
   getUsers: Array<User>;
+  summarizeMatches: MatchSummary;
 };
 
 
@@ -76,7 +90,19 @@ export type QueryGetAnswersArgs = {
 };
 
 
+export type QueryGetBestiesArgs = {
+  badgeId: Scalars['Int'];
+  network: Scalars['String'];
+};
+
+
 export type QueryGetUsersArgs = {
+  network: Scalars['String'];
+};
+
+
+export type QuerySummarizeMatchesArgs = {
+  badgeId: Scalars['Int'];
   network: Scalars['String'];
 };
 
@@ -163,10 +189,12 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = {
   Answer: ResolverTypeWrapper<Answer>;
   AnswerInput: AnswerInput;
+  Besty: ResolverTypeWrapper<Besty>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Match: ResolverTypeWrapper<Match>;
+  MatchSummary: ResolverTypeWrapper<MatchSummary>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
@@ -177,10 +205,12 @@ export type ResolversTypes = {
 export type ResolversParentTypes = {
   Answer: Answer;
   AnswerInput: AnswerInput;
+  Besty: Besty;
   Boolean: Scalars['Boolean'];
   ID: Scalars['ID'];
   Int: Scalars['Int'];
   Match: Match;
+  MatchSummary: MatchSummary;
   Mutation: {};
   Query: {};
   String: Scalars['String'];
@@ -196,9 +226,21 @@ export type AnswerResolvers<ContextType = any, ParentType extends ResolversParen
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type BestyResolvers<ContextType = any, ParentType extends ResolversParentTypes['Besty'] = ResolversParentTypes['Besty']> = {
+  score?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MatchResolvers<ContextType = any, ParentType extends ResolversParentTypes['Match'] = ResolversParentTypes['Match']> = {
   answers?: Resolver<Array<ResolversTypes['Answer']>, ParentType, ContextType>;
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type MatchSummaryResolvers<ContextType = any, ParentType extends ResolversParentTypes['MatchSummary'] = ResolversParentTypes['MatchSummary']> = {
+  matches?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  score?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
@@ -210,7 +252,9 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   getAnswers?: Resolver<Array<ResolversTypes['Answer']>, ParentType, ContextType, RequireFields<QueryGetAnswersArgs, 'badgeId' | 'network'>>;
+  getBesties?: Resolver<Array<ResolversTypes['Besty']>, ParentType, ContextType, RequireFields<QueryGetBestiesArgs, 'badgeId' | 'network'>>;
   getUsers?: Resolver<Array<ResolversTypes['User']>, ParentType, ContextType, RequireFields<QueryGetUsersArgs, 'network'>>;
+  summarizeMatches?: Resolver<ResolversTypes['MatchSummary'], ParentType, ContextType, RequireFields<QuerySummarizeMatchesArgs, 'badgeId' | 'network'>>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
@@ -227,7 +271,9 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type Resolvers<ContextType = any> = {
   Answer?: AnswerResolvers<ContextType>;
+  Besty?: BestyResolvers<ContextType>;
   Match?: MatchResolvers<ContextType>;
+  MatchSummary?: MatchSummaryResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;

@@ -1,6 +1,14 @@
 import { gql } from "apollo-server-core";
 import { makeExecutableSchema } from "@graphql-tools/schema";
-import { getAnswers, getUsers, login, makeMatch, setAnswer } from "./db";
+import {
+  getAnswers,
+  getUsers,
+  login,
+  makeMatch,
+  setAnswer,
+  getBesties,
+  summarizeMatches,
+} from "./db";
 import { Resolvers } from "generated/graphql";
 
 const typeDefs = gql`
@@ -39,9 +47,20 @@ const typeDefs = gql`
     login(network: String!, badgeId: Int!, pin: String!): User
   }
 
+  type Besty {
+    score: Int!
+    user: User!
+  }
+
+  type MatchSummary {
+    matches: Int!
+    score: Int!
+  }
   type Query {
     getAnswers(network: String!, badgeId: Int!): [Answer!]!
     getUsers(network: String!): [User!]!
+    getBesties(network: String!, badgeId: Int!): [Besty!]!
+    summarizeMatches(network: String!, badgeId: Int!): MatchSummary!
   }
 
   schema {
@@ -59,6 +78,9 @@ const resolvers: Resolvers = {
   Query: {
     getAnswers: (_, { network, badgeId }) => getAnswers(network, badgeId),
     getUsers: (_, { network }) => getUsers(network),
+    getBesties: (_, { network, badgeId }) => getBesties(network, badgeId),
+    summarizeMatches: (_, { network, badgeId }) =>
+      summarizeMatches(network, badgeId),
   },
 };
 const schema = makeExecutableSchema({ typeDefs, resolvers });
