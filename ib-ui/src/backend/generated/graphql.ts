@@ -29,10 +29,22 @@ export type AnswerInput = {
   questionId: Scalars['String'];
 };
 
+export type Besty = {
+  __typename?: 'Besty';
+  score: Scalars['Int'];
+  user: User;
+};
+
 export type Match = {
   __typename?: 'Match';
   answers: Array<Answer>;
   user: User;
+};
+
+export type MatchSummary = {
+  __typename?: 'MatchSummary';
+  matches: Scalars['Int'];
+  score: Scalars['Int'];
 };
 
 export type Mutation = {
@@ -66,7 +78,9 @@ export type MutationSetAnswerArgs = {
 export type Query = {
   __typename?: 'Query';
   getAnswers: Array<Answer>;
+  getBesties: Array<Besty>;
   getUsers: Array<User>;
+  summarizeMatches: MatchSummary;
 };
 
 
@@ -76,7 +90,19 @@ export type QueryGetAnswersArgs = {
 };
 
 
+export type QueryGetBestiesArgs = {
+  badgeId: Scalars['Int'];
+  network: Scalars['String'];
+};
+
+
 export type QueryGetUsersArgs = {
+  network: Scalars['String'];
+};
+
+
+export type QuerySummarizeMatchesArgs = {
+  badgeId: Scalars['Int'];
   network: Scalars['String'];
 };
 
@@ -133,6 +159,14 @@ export type SubmitPinMutationVariables = Exact<{
 
 
 export type SubmitPinMutation = { __typename?: 'Mutation', login?: { __typename?: 'User', id: string, network: string, badgeId: number, firstName: string, profile?: string | null, linkedIn?: string | null, phone?: string | null, email?: string | null } | null };
+
+export type SummarizeMatchesQueryVariables = Exact<{
+  network: Scalars['String'];
+  badgeId: Scalars['Int'];
+}>;
+
+
+export type SummarizeMatchesQuery = { __typename?: 'Query', summarizeMatches: { __typename?: 'MatchSummary', matches: number, score: number }, getBesties: Array<{ __typename?: 'Besty', score: number, user: { __typename?: 'User', badgeId: number, firstName: string, profile?: string | null } }> };
 
 
 export const GetUsersDocument = gql`
@@ -345,3 +379,48 @@ export function useSubmitPinMutation(baseOptions?: Apollo.MutationHookOptions<Su
 export type SubmitPinMutationHookResult = ReturnType<typeof useSubmitPinMutation>;
 export type SubmitPinMutationResult = Apollo.MutationResult<SubmitPinMutation>;
 export type SubmitPinMutationOptions = Apollo.BaseMutationOptions<SubmitPinMutation, SubmitPinMutationVariables>;
+export const SummarizeMatchesDocument = gql`
+    query SummarizeMatches($network: String!, $badgeId: Int!) {
+  summarizeMatches(network: $network, badgeId: $badgeId) {
+    matches
+    score
+  }
+  getBesties(network: $network, badgeId: $badgeId) {
+    score
+    user {
+      badgeId
+      firstName
+      profile
+    }
+  }
+}
+    `;
+
+/**
+ * __useSummarizeMatchesQuery__
+ *
+ * To run a query within a React component, call `useSummarizeMatchesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSummarizeMatchesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSummarizeMatchesQuery({
+ *   variables: {
+ *      network: // value for 'network'
+ *      badgeId: // value for 'badgeId'
+ *   },
+ * });
+ */
+export function useSummarizeMatchesQuery(baseOptions: Apollo.QueryHookOptions<SummarizeMatchesQuery, SummarizeMatchesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<SummarizeMatchesQuery, SummarizeMatchesQueryVariables>(SummarizeMatchesDocument, options);
+      }
+export function useSummarizeMatchesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<SummarizeMatchesQuery, SummarizeMatchesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<SummarizeMatchesQuery, SummarizeMatchesQueryVariables>(SummarizeMatchesDocument, options);
+        }
+export type SummarizeMatchesQueryHookResult = ReturnType<typeof useSummarizeMatchesQuery>;
+export type SummarizeMatchesLazyQueryHookResult = ReturnType<typeof useSummarizeMatchesLazyQuery>;
+export type SummarizeMatchesQueryResult = Apollo.QueryResult<SummarizeMatchesQuery, SummarizeMatchesQueryVariables>;

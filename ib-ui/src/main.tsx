@@ -2,12 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  gql,
-} from "@apollo/client";
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 import App from "./App";
 import Quiz from "./Quiz";
@@ -39,9 +34,7 @@ const router = createBrowserRouter([
   },
 ]);
 
-const uri =
-  // import.meta.env.VITE_BACKEND ||
-  "https://fdl4zn3tz1.execute-api.us-east-1.amazonaws.com/dev/graphql";
+const uri = import.meta.env.VITE_BACKEND;
 
 const client = new ApolloClient({
   uri,

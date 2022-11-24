@@ -1,0 +1,14 @@
+query SummarizeMatches($network: String!, $badgeId: Int!) {
+  summarizeMatches(network: $network, badgeId: $badgeId) {
+    matches
+    score
+  }
+  getBesties(network: $network, badgeId: $badgeId) {
+    score
+    user {
+      badgeId
+      firstName
+      profile
+    }
+  }
+}

@@ -9,25 +9,7 @@ import useQuizStore from "./backend/useQuizStore";
 import { fakeImage } from "./fakeImage";
 import CheckMark from "./CheckMark";
 import XMark from "./Xmark";
-
-const pluralizedWord = (word: string) => {
-  const lastChar = word.substring(word.length - 1);
-  switch (lastChar) {
-    case "y": {
-      return word.substring(0, word.length - 1) + "ies";
-    }
-    case "s":
-    case "x": {
-      return word + "es";
-    }
-    default: {
-      return word + "s";
-    }
-  }
-};
-const pluralize = (n: number, word: string) =>
-  n === 1 ? word : pluralizedWord(word);
-const countOf = (n: number, item: string) => `${n} ${pluralize(n, item)}`;
+import { countOf } from "./countOf";
 
 const DisplayMatch: FC<{
   network: string;
