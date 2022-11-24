@@ -9,7 +9,7 @@ type Props = {
 const QR: FC<Props> = ({ word, size, bgColor, ...props }) => {
   const qrCode = useMemo(
     () =>
-      `http://api.qrserver.com/v1/create-qr-code/?data=${word}!&size=${size}x${size}&bgcolor=${bgColor}`,
+      `http://api.qrserver.com/v1/create-qr-code/?data=${word}&size=${size}x${size}&bgcolor=${bgColor}`,
     [word, size, bgColor]
   );
   return <img src={qrCode} alt="" {...props} />;

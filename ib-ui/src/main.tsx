@@ -33,9 +33,15 @@ const router = createBrowserRouter([
     path: "users",
     element: <Users />,
   },
+  {
+    path: "users/:pageNo",
+    element: <Users />,
+  },
 ]);
 
-const uri = import.meta.env.VITE_BACKEND;
+const uri =
+  // import.meta.env.VITE_BACKEND ||
+  "https://fdl4zn3tz1.execute-api.us-east-1.amazonaws.com/dev/graphql";
 
 const client = new ApolloClient({
   uri,

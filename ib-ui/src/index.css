@@ -54,3 +54,9 @@ body {
     background-color: #f9f9f9;
   }
 }
+
+@media print {
+  .pagebreak {
+    page-break-before: always;
+  } /* page-break-after works, as well */
+}
