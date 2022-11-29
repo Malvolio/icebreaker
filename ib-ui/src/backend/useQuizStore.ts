@@ -12,6 +12,7 @@ import {
   useSetAnswerMutation,
 } from "./generated/graphql";
 import { useCallback } from "react";
+import { usePushError, useTryError } from "../ErrorDetection";
 
 type Question = {
   id: string;
@@ -40,24 +41,30 @@ export const processAnswers = (
 
 const useQuizStore = (network: string) => {
   const user = useGetLoggedInUser(network);
+  const tryError = useTryError();
+
   const [setAnswer] = useSetAnswerMutation();
-  const { data } = useGetAnswersQuery({
+  const { data, refetch, error } = useGetAnswersQuery({
     variables: { network, badgeId: user?.badgeId || 0 },
     skip: !user?.badgeId,
   });
+  usePushError(error);
   const answer = useCallback(
-    async (questionIndex: number, optionIndex: number) => {
-      setAnswer({
-        variables: {
-          network,
-          badgeId: user?.badgeId || 0,
-          answer: {
-            questionId: questions[questionIndex].id,
-            optionIndex,
+    async (questionIndex: number, optionIndex: number) =>
+      tryError(async () => {
+        const r = await setAnswer({
+          variables: {
+            network,
+            badgeId: user?.badgeId || 0,
+            answer: {
+              questionId: questions[questionIndex].id,
+              optionIndex,
+            },
           },
-        },
-      });
-    },
+        });
+        refetch();
+        return r;
+      }),
     []
   );
   const answers = processAnswers(data?.getAnswers);

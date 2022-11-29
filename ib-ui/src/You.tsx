@@ -2,8 +2,8 @@ import { FC, Fragment } from "react";
 import { Link } from "react-router-dom";
 import { useSummarizeMatchesQuery } from "./backend/generated/graphql";
 import useQuizStore from "./backend/useQuizStore";
-import { countOf, pluralize } from "./countOf";
-import { fakeImage } from "./fakeImage";
+import { pluralize } from "./countOf";
+import { usePushError } from "./ErrorDetection";
 import { useLogOutUser } from "./loggedInUser";
 import PageFrame from "./PageFrame";
 import { urlOfQuiz } from "./urlOf";
@@ -28,9 +28,10 @@ const OxfordComma = <A,>({
 );
 
 const Scorecard: FC<{ loggedInUser: SelfUser }> = ({ loggedInUser }) => {
-  const { data } = useSummarizeMatchesQuery({
+  const { data, error } = useSummarizeMatchesQuery({
     variables: { network: loggedInUser.network, badgeId: loggedInUser.badgeId },
   });
+  usePushError(error);
   return data ? (
     <div>
       <div>

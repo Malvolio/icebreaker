@@ -40,7 +40,7 @@ const IsYou: FC<{ badgeId: number; network: string }> = ({
           <button className="rounded border-2 ml-2 px-2" onClick={tryLogIn}>
             login
           </button>
-          <div className="h-3">{loginError}</div>
+          <div className="h-3 text-red-600">{loginError}</div>
         </div>
 
         <h2 className="text-xl mt-12">No?</h2>

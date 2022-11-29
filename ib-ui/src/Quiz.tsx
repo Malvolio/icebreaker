@@ -9,6 +9,7 @@ import PageFrame from "./PageFrame";
 import { urlOfBadge, urlOfQuiz } from "./urlOf";
 import { useGetLoggedInUser } from "./loggedInUser";
 import { useStandardParams } from "./useStandardParams";
+import { useTryError } from "./ErrorDetection";
 
 const QuizButton: FC<
   PropsWithChildren<{ checked: boolean; onCheck: () => void }>
@@ -49,8 +50,9 @@ const QuizLink: FC<PropsWithChildren<{ network: string; goTo: number }>> = ({
 };
 
 const Quiz = () => {
-  const { network, badgeId } = useStandardParams();
+  const { network } = useStandardParams();
   const loggedInUser = useGetLoggedInUser(network);
+  const tryError = useTryError();
 
   const { answers, questions, answer } = useQuizStore(network);
   const navigate = useNavigate();
@@ -59,10 +61,10 @@ const Quiz = () => {
   const { prompt, options } = questions[questionIndex];
   const currentAnswer = answers[questionIndex];
   const currentOptionIndex = O.getOrElse(() => -1)(currentAnswer);
-  const onCheck = (optionIndex: number) => () => {
-    answer(questionIndex, optionIndex);
+  const onCheck = (optionIndex: number) => async () => {
+    await tryError(() => answer(questionIndex, optionIndex));
     const next = questionIndex + 1;
-    if (next < questions.length && O.isNone(answers[next])) {
+    if (next < questions.length) {
       setTimeout(() => {
         navigate(urlOfQuiz(network!, next));
       }, 1000);

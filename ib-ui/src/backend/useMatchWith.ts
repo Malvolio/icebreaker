@@ -7,6 +7,7 @@ import { useEffect, useMemo, useState } from "react";
 import { User, SelfUser } from "../User";
 import { useMatchMutation } from "./generated/graphql";
 import useQuizStore, { processAnswers } from "./useQuizStore";
+import { useTryError } from "../ErrorDetection";
 
 type Match = {
   user: User;
@@ -35,6 +36,8 @@ export const useMatchWith = (
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [theirAnswers, setTheirAnswers] = useState<O.Option<number>[]>([]);
+  const tryError = useTryError();
+
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -42,13 +45,15 @@ export const useMatchWith = (
       setLoading(true);
       setUser(null);
       try {
-        const { data } = await doMatch({
-          variables: {
-            network: loggedInUser.network,
-            me: loggedInUser.badgeId,
-            badgeId,
-          },
-        });
+        const { data } = await tryError(() =>
+          doMatch({
+            variables: {
+              network: loggedInUser.network,
+              me: loggedInUser.badgeId,
+              badgeId,
+            },
+          })
+        );
         const user = data?.match?.user;
         if (user) {
           setUser(user);
