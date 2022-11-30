@@ -27,6 +27,16 @@ const OxfordComma = <A,>({
   </>
 );
 
+const BoldPlural: FC<{ count: number; word: string; plural?: string }> = ({
+  count,
+  word,
+  plural,
+}) => (
+  <>
+    <span className="font-bold">{count}</span> {pluralize(count, word, plural)}
+  </>
+);
+
 const Scorecard: FC<{ loggedInUser: SelfUser }> = ({ loggedInUser }) => {
   const { data, error } = useSummarizeMatchesQuery({
     variables: { network: loggedInUser.network, badgeId: loggedInUser.badgeId },
@@ -36,13 +46,16 @@ const Scorecard: FC<{ loggedInUser: SelfUser }> = ({ loggedInUser }) => {
     <div>
       <div>
         You have networked with{" "}
-        <span className="font-bold">{data.summarizeMatches.matches}</span>{" "}
-        {pluralize(data.summarizeMatches.matches, "person", "people")}, scoring{" "}
-        <span className="font-bold">{data.summarizeMatches.score}</span>{" "}
-        {pluralize(
-          data.summarizeMatches.matches + data.summarizeMatches.score,
-          "point"
-        )}
+        <BoldPlural
+          count={data.summarizeMatches.matches}
+          word="person"
+          plural="people"
+        />
+        , scoring{" "}
+        <BoldPlural
+          count={data.summarizeMatches.matches + data.summarizeMatches.score}
+          word="point"
+        />
       </div>
       {data.getBesties.length ? (
         <span>
