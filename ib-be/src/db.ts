@@ -175,9 +175,9 @@ export const makeMatch = async (
   );
 };
 
-export const summarizeMatches = (network: string, badgeId: number) => {
+export const summarizeMatches = async (network: string, badgeId: number) => {
   const { count, sum } = db.fn;
-  return db
+  const { matches, score } = await db
     .selectFrom("matches")
     .select([
       count<number>("score").as("matches"),
@@ -186,6 +186,10 @@ export const summarizeMatches = (network: string, badgeId: number) => {
     .where("network", "=", network)
     .where("badgeId", "=", badgeId)
     .executeTakeFirstOrThrow();
+  return {
+    matches: matches || 0,
+    score: score || 0,
+  };
 };
 
 type UserModel = Selectable<UserTable>;
