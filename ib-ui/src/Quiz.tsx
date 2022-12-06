@@ -6,7 +6,7 @@ import Checkbox from "./Checkbox";
 
 import useQuizStore from "./backend/useQuizStore";
 import PageFrame from "./PageFrame";
-import { urlOfBadge, urlOfQuiz } from "./urlOf";
+import { urlOfBadge, urlOfDone, urlOfQuiz } from "./urlOf";
 import { useGetLoggedInUser } from "./loggedInUser";
 import { useStandardParams } from "./useStandardParams";
 import { useTryError } from "./ErrorDetection";
@@ -64,11 +64,11 @@ const Quiz = () => {
   const onCheck = (optionIndex: number) => async () => {
     await tryError(() => answer(questionIndex, optionIndex));
     const next = questionIndex + 1;
-    if (next < questions.length) {
-      setTimeout(() => {
-        navigate(urlOfQuiz(network!, next));
-      }, 1000);
-    }
+    setTimeout(() => {
+      const nextUrl =
+        next < questions.length ? urlOfQuiz(network, next) : urlOfDone(network);
+      navigate(nextUrl);
+    }, 1000);
   };
   return network ? (
     <PageFrame

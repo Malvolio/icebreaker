@@ -6,6 +6,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 import App from "./App";
 import Quiz from "./Quiz";
+import Done from "./Done";
 import Badge from "./Badge";
 import Users from "./Users";
 
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
   {
     path: "quiz/:network/:pageNo",
     element: <Quiz />,
+  },
+  {
+    path: "done/:network",
+    element: <Done />,
   },
   {
     path: "badge/:network/:badgeId",
