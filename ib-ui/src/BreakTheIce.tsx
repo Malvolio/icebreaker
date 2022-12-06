@@ -21,11 +21,14 @@ const DisplayMatch: FC<{
   const answer = answers[questionIndex];
   const chosenOption = O.isSome(answer) ? options[answer.value] : "";
   return (
-    <div>
-      <div className="flex justify-center gap-3">
+    <div className="text-xs">
+      <div className="flex justify-center items-end gap-1">
         {didMatch ? <CheckMark /> : <XMark />} <span>{prompt}</span>
       </div>
-      {didMatch && <div className="font-bold">{chosenOption}</div>}
+      <div>
+        You {didMatch && " both"} picked{" "}
+        <span className="font-bold">{chosenOption}</span>
+      </div>
     </div>
   );
 };
