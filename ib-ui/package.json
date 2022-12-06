@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "deploy": "yarn build; aws s3 cp dist s3://icebreaker-staging/dist/ --recursive; yarn invalidate",
+    "deploy": "dotenv -e .env.staging yarn build; aws s3 cp dist s3://icebreaker-staging/dist/ --recursive; yarn invalidate",
     "invalidate": "aws cloudfront create-invalidation --path /index.html --distribution-id E1JCQCO841KQPN",
     "codegen": "graphql-codegen --config codegen.yml"
   },
@@ -32,6 +32,7 @@
     "@types/react-dom": "^18.0.8",
     "@vitejs/plugin-react": "^2.2.0",
     "autoprefixer": "^10.4.13",
+    "dotenv-cli": "^6.0.0",
     "graphql": "^16.6.0",
     "postcss": "^8.4.19",
     "typescript": "^4.6.4",
